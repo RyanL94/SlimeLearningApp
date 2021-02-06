@@ -103,12 +103,15 @@ public class TestController : MonoBehaviour
 
     public void NextQuestion()
     {
-        if (questionNumber == questions)
+        if (questionNumber >= questions)
         {
             prompt.text = "DONE";
             furigana.text = "";
             answer.text = "";
-            questionNumber++;
+            if (questionNumber == questions)
+            {
+                questionNumber++;
+            }
             return;
         }
 
