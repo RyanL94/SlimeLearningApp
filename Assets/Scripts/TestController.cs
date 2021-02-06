@@ -108,10 +108,12 @@ public class TestController : MonoBehaviour
             prompt.text = "DONE";
             furigana.text = "";
             answer.text = "";
+            questionNumber++;
             return;
         }
 
-        Text[] wordStats = testingWords[questionNumber].GetComponentsInChildren<Text>();
+        questionNumber++;
+        Text[] wordStats = testingWords[questionNumber-1].GetComponentsInChildren<Text>();
         if (testing == "fromKanji")
         {
             questionText.text = "Translate the following to English:";
@@ -156,7 +158,62 @@ public class TestController : MonoBehaviour
         }
 
         answer.gameObject.SetActive(false);
-        questionNumber++;
+        questionNum.text = questionNumber.ToString();
+    }
+
+    public void PrevQuestion()
+    {
+        if (questionNumber == 1)
+        {
+            return;
+        }
+
+        questionNumber--;
+        Text[] wordStats = testingWords[questionNumber-1].GetComponentsInChildren<Text>();
+        if (testing == "fromKanji")
+        {
+            questionText.text = "Translate the following to English:";
+            prompt.text = wordStats[2].text;
+            if (includeFurigana == true)
+            {
+                furigana.text = wordStats[1].text;
+            }
+            else
+            {
+                furigana.text = "";
+            }
+            answer.text = wordStats[0].text;
+        }
+        else if (testing == "fromEnglish")
+        {
+            questionText.text = "Translate the following to Japanese:";
+            prompt.text = wordStats[0].text;
+            furigana.text = "";
+            if (includeFurigana == true)
+            {
+                answer.text = wordStats[2].text + " (" + wordStats[1].text + ")";
+            }
+            else
+            {
+                answer.text = wordStats[2].text;
+            }
+        }
+        else if (testing == "writeKanji")
+        {
+            questionText.text = "Write the following as kanji:";
+            prompt.text = wordStats[0].text;
+            if (includeFurigana == true)
+            {
+                furigana.text = wordStats[1].text;
+            }
+            else
+            {
+                furigana.text = "";
+            }
+            answer.text = wordStats[2].text;
+        }
+
+        answer.gameObject.SetActive(false);
         questionNum.text = questionNumber.ToString();
     }
 
