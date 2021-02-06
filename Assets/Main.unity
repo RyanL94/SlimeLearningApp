@@ -2601,7 +2601,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &477462571
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3237,7 +3237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.9852, y: 13.73}
+  m_AnchoredPosition: {x: -10, y: 13.73}
   m_SizeDelta: {x: 109.97046, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &588501663
@@ -3266,7 +3266,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 60
-    m_Alignment: 0
+    m_Alignment: 2
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -7243,6 +7243,8 @@ MonoBehaviour:
   prompt: {fileID: 1836506618}
   furigana: {fileID: 2109470425}
   answer: {fileID: 16739637}
+  questionNum: {fileID: 588501663}
+  questionTotal: {fileID: 952606864}
 --- !u!1 &1462567686
 GameObject:
   m_ObjectHideFlags: 0

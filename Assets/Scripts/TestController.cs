@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class TestController : MonoBehaviour
 {
+    [Header("Test Setup")]
     [SerializeField]
     protected GameObject testSetup;
     [SerializeField]
@@ -21,6 +22,7 @@ public class TestController : MonoBehaviour
     private int questions = 0;
     private bool includeFurigana;
 
+    [Header("Test Ongoing")]
     [SerializeField]
     protected Text questionText;
     [SerializeField]
@@ -29,6 +31,10 @@ public class TestController : MonoBehaviour
     protected Text furigana;
     [SerializeField]
     protected Text answer;
+    [SerializeField]
+    protected Text questionNum;
+    [SerializeField]
+    protected Text questionTotal;
 
     private List<GameObject> testingWords = new List<GameObject>();
     private int questionNumber = 0;
@@ -49,8 +55,6 @@ public class TestController : MonoBehaviour
         {
             testing = "writeKanji";
         }
-
-        testType.value = 0;
 
         if (numberOfQuestions.text == "")
         {
@@ -92,6 +96,8 @@ public class TestController : MonoBehaviour
 
         answer.gameObject.SetActive(false);
         questionNumber = 0;
+        questionNum.text = questionNumber.ToString();
+        questionTotal.text = questions.ToString();
         NextQuestion();
     }
 
@@ -151,7 +157,7 @@ public class TestController : MonoBehaviour
 
         answer.gameObject.SetActive(false);
         questionNumber++;
-        Debug.Log(questionNumber);
+        questionNum.text = questionNumber.ToString();
     }
 
     public void RevealAnswer()
@@ -165,7 +171,7 @@ public class TestController : MonoBehaviour
         ToggleButtons();
     }
 
-    void GetTestWords()
+    private void GetTestWords()
     {
         GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
 
