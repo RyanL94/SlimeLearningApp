@@ -9,17 +9,17 @@ public class WordManager : MonoBehaviour
 {
     private List<string> fileLines;
 
-    [SerializeField]
-    protected Text wordCount;
-    [SerializeField]
-    protected GameObject wordCountPanel;
+    [Header("Word List")]
+    [SerializeField] private Text wordCount = default;
+    [SerializeField] private GameObject wordCountPanel = default;
 
-    [SerializeField]
-    protected GameObject word;
-    [SerializeField]
-    protected GameObject addWordPanel;
-    [SerializeField]
-    protected Transform wordList;
+    [Header("Add Words")]
+    [SerializeField] private GameObject word = default;
+    [SerializeField] private GameObject addWordPanel = default;
+    [SerializeField] private Transform wordList = default;
+
+    [Header("Select words")]
+    [SerializeField] private GameObject selectWordPanel = default;
 
     Text[] tFields;
 
@@ -148,8 +148,7 @@ public class WordManager : MonoBehaviour
 
         foreach (GameObject word in wordListSort)
         {
-            GameObject temp = Instantiate(word) as GameObject;
-            temp.transform.SetParent(wordList, true);
+            GameObject temp = Instantiate(word, wordList) as GameObject;
         }
 
         foreach (GameObject killThisStupidWord in allWords)
@@ -161,10 +160,9 @@ public class WordManager : MonoBehaviour
     public void GetWordCount()
     {
         ToggleButtons();
+        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
 
         wordCountPanel.SetActive(true);
-
-        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
 
         wordCount.text = allWords.Length.ToString();
     }
@@ -174,6 +172,39 @@ public class WordManager : MonoBehaviour
         wordCountPanel.SetActive(false);
 
         ToggleButtons();
+    }
+
+    public void ToggleSelectBy()
+    {
+        ToggleButtons();
+
+        selectWordPanel.SetActive(!selectWordPanel.activeSelf);
+    }
+
+    public void SelectAll()
+    {
+        ToggleButtons();
+        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
+
+        selectWordPanel.SetActive(!selectWordPanel.activeSelf);
+
+        for(int i = 0; i<allWords.Length; i++)
+        {
+            allWords[i].GetComponentInChildren<Toggle>().isOn = true;
+        }
+    }
+
+    public void UnselectAll()
+    {
+        ToggleButtons();
+        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
+
+        selectWordPanel.SetActive(!selectWordPanel.activeSelf);
+
+        for (int i = 0; i < allWords.Length; i++)
+        {
+            allWords[i].GetComponentInChildren<Toggle>().isOn = false;
+        }
     }
 
     void DestroyAllWords()
