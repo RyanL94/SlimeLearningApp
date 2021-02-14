@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using System.Linq;
 using UnityEngine.UI;
+using System;
 
 public class WordManager : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class WordManager : MonoBehaviour
 
     [Header("Select words")]
     [SerializeField] private GameObject selectWordPanel = default;
+    [SerializeField] private InputField newestSelect = default;
+    [SerializeField] private InputField oldestSelect = default;
+    [SerializeField] private InputField startDateSelect = default;
+    [SerializeField] private InputField endDateSelect = default;
 
     Text[] tFields;
 
@@ -188,9 +193,9 @@ public class WordManager : MonoBehaviour
 
         selectWordPanel.SetActive(!selectWordPanel.activeSelf);
 
-        for(int i = 0; i<allWords.Length; i++)
+        foreach (GameObject word in allWords)
         {
-            allWords[i].GetComponentInChildren<Toggle>().isOn = true;
+            word.GetComponentInChildren<Toggle>().isOn = true;
         }
     }
 
@@ -201,9 +206,48 @@ public class WordManager : MonoBehaviour
 
         selectWordPanel.SetActive(!selectWordPanel.activeSelf);
 
-        for (int i = 0; i < allWords.Length; i++)
+        foreach (GameObject word in allWords)
         {
-            allWords[i].GetComponentInChildren<Toggle>().isOn = false;
+            word.GetComponentInChildren<Toggle>().isOn = false;
+        }
+    }
+
+    public void SelectConditions()
+    {
+        ToggleButtons();
+        selectWordPanel.SetActive(!selectWordPanel.activeSelf);
+        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
+
+        int newestSelectAmount;
+        if (newestSelect.text != "")
+        {
+            newestSelectAmount = allWords.Length - Int32.Parse(newestSelect.text);
+        }
+        else
+        {
+            newestSelectAmount = allWords.Length;
+        }
+        newestSelect.text = "";
+
+        for (int i = allWords.Length; i > newestSelectAmount; i--)
+        {
+            allWords[i-1].GetComponentInChildren<Toggle>().isOn = true;
+        }
+
+        int oldestSelectAmount;
+        if (oldestSelect.text != null)
+        {
+            oldestSelectAmount = Int32.Parse(oldestSelect.text);
+        }
+        else
+        {
+            oldestSelectAmount = 0;
+        }
+        oldestSelect.text = "";
+
+        for (int i= 0; i<oldestSelectAmount; i++)
+        {
+            allWords[i].GetComponentInChildren<Toggle>().isOn = true;
         }
     }
 
