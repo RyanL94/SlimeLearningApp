@@ -26,7 +26,7 @@ public class WordManager : MonoBehaviour
     [SerializeField] private InputField startDateSelect = default;
     [SerializeField] private InputField endDateSelect = default;
 
-    Text[] tFields;
+    private Text[] tFields;
 
     // Start is called before the first frame update
     void Start()
@@ -191,8 +191,6 @@ public class WordManager : MonoBehaviour
         ToggleButtons();
         GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
 
-        selectWordPanel.SetActive(!selectWordPanel.activeSelf);
-
         foreach (GameObject word in allWords)
         {
             word.GetComponentInChildren<Toggle>().isOn = true;
@@ -203,8 +201,6 @@ public class WordManager : MonoBehaviour
     {
         ToggleButtons();
         GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
-
-        selectWordPanel.SetActive(!selectWordPanel.activeSelf);
 
         foreach (GameObject word in allWords)
         {
@@ -218,34 +214,53 @@ public class WordManager : MonoBehaviour
         selectWordPanel.SetActive(!selectWordPanel.activeSelf);
         GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
 
-        int newestSelectAmount;
+        if(startDateSelect.text != "" && endDateSelect.text != "")
+        {
+            System.DateTime startDate = System.DateTime.Parse(startDateSelect.text);
+            System.DateTime endDate = System.DateTime.Parse(endDateSelect.text);
+
+            for (int i = 0; i<allWords.Length; i++)
+            {
+                Text[] temp = allWords[i].GetComponentsInChildren<Text>();
+                String dateText = temp[3].text;
+                System.DateTime date = System.DateTime.Parse(dateText);
+
+                if(DateTime.Compare(date,startDate) >= 0  && DateTime.Compare(date,endDate) <= 0)
+                {
+                    allWords[i].GetComponentInChildren<Toggle>().isOn = true;
+                }
+            }
+        }
+        startDateSelect.text = "";
+        endDateSelect.text = "";
+
+        int selectAmount;
         if (newestSelect.text != "")
         {
-            newestSelectAmount = allWords.Length - Int32.Parse(newestSelect.text);
+            selectAmount = allWords.Length - Int32.Parse(newestSelect.text);
         }
         else
         {
-            newestSelectAmount = allWords.Length;
+            selectAmount = allWords.Length;
         }
         newestSelect.text = "";
 
-        for (int i = allWords.Length; i > newestSelectAmount; i--)
+        for (int i = allWords.Length; i > selectAmount; i--)
         {
             allWords[i-1].GetComponentInChildren<Toggle>().isOn = true;
         }
 
-        int oldestSelectAmount;
-        if (oldestSelect.text != null)
+        if (oldestSelect.text != "")
         {
-            oldestSelectAmount = Int32.Parse(oldestSelect.text);
+            selectAmount = Int32.Parse(oldestSelect.text);
         }
         else
         {
-            oldestSelectAmount = 0;
+            selectAmount = 0;
         }
         oldestSelect.text = "";
 
-        for (int i= 0; i<oldestSelectAmount; i++)
+        for (int i= 0; i< selectAmount; i++)
         {
             allWords[i].GetComponentInChildren<Toggle>().isOn = true;
         }

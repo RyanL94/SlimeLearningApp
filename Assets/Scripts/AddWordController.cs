@@ -6,18 +6,13 @@ using UnityEngine.UI;
 
 public class AddWordController : MonoBehaviour
 {
-    [SerializeField]
-    protected GameObject howManyPanel;
-    [SerializeField]
-    protected GameObject addWordsPanel;
-    [SerializeField]
-    protected GameObject wordTemplate;
-    [SerializeField]
-    protected InputField amountToSpawn;
-    [SerializeField]
-    protected Transform addWordLocation;
+    [SerializeField] private GameObject howManyPanel;
+    [SerializeField] private GameObject addWordsPanel;
+    [SerializeField] private GameObject wordTemplate;
+    [SerializeField] private InputField amountToSpawn;
+    [SerializeField] private Transform addWordLocation;
 
-    InputField[] iFields;
+    private InputField[] iFields;
 
     public void EnableAddWords()
     {
