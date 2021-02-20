@@ -26,6 +26,10 @@ public class WordManager : MonoBehaviour
     [SerializeField] private InputField startDateSelect = default;
     [SerializeField] private InputField endDateSelect = default;
 
+    [Header("Search")]
+    [SerializeField] private GameObject searchWordPanel = default;
+    [SerializeField] private InputField searchField = default;
+
     private Text[] tFields;
 
     // Start is called before the first frame update
@@ -56,7 +60,7 @@ public class WordManager : MonoBehaviour
         for (int i = 0; i < fileLines.Count; i++)
         {
             string[] wordData = fileLines[i].Split('/');
-            GameObject temp = Instantiate(word) as GameObject;
+            GameObject temp = Instantiate(word, wordList);
             tFields = temp.GetComponentsInChildren<Text>();
             tFields[0].text = wordData[0];
             temp.GetComponent<WordInfo>().engWord = wordData[0];
@@ -68,7 +72,6 @@ public class WordManager : MonoBehaviour
             temp.GetComponent<WordInfo>().date = wordData[3];
             tFields[4].text = wordData[4];
             temp.GetComponent<WordInfo>().diff = wordData[4];
-            temp.transform.SetParent(wordList, true);
         }
     }
 
@@ -221,8 +224,8 @@ public class WordManager : MonoBehaviour
 
             for (int i = 0; i<allWords.Length; i++)
             {
-                Text[] temp = allWords[i].GetComponentsInChildren<Text>();
-                String dateText = temp[3].text;
+                tFields = allWords[i].GetComponentsInChildren<Text>();
+                String dateText = tFields[3].text;
                 System.DateTime date = System.DateTime.Parse(dateText);
 
                 if(DateTime.Compare(date,startDate) >= 0  && DateTime.Compare(date,endDate) <= 0)
@@ -264,6 +267,38 @@ public class WordManager : MonoBehaviour
         {
             allWords[i].GetComponentInChildren<Toggle>().isOn = true;
         }
+    }
+
+    public void ToggleSearchWords()
+    {
+        ToggleButtons();
+
+        searchWordPanel.SetActive(!searchWordPanel.activeSelf);
+    }
+
+    public void SearchWords()
+    {
+        RefreshAllWords();
+        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
+
+        if (searchField.text == "")
+        {
+            return;
+        }
+
+        for (int i = 0; i < allWords.Length; i++)
+        {
+            tFields = allWords[i].GetComponentsInChildren<Text>();
+            String comparisonText = tFields[0].text.ToLower();
+            if (!(comparisonText.Contains(searchField.text.ToLower()) || tFields[1].text.Contains(searchField.text) || tFields[2].text.Contains(searchField.text)))
+            {
+                Debug.Log(tFields[0].text + " destroyed");
+                Destroy(allWords[i]);
+            }
+        }
+
+        searchField.text = "";
+        ToggleSearchWords();
     }
 
     void DestroyAllWords()
