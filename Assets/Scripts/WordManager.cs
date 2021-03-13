@@ -191,7 +191,6 @@ public class WordManager : MonoBehaviour
 
     public void SelectAll()
     {
-        ToggleButtons();
         GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
 
         foreach (GameObject word in allWords)
@@ -202,7 +201,6 @@ public class WordManager : MonoBehaviour
 
     public void UnselectAll()
     {
-        ToggleButtons();
         GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
 
         foreach (GameObject word in allWords)
