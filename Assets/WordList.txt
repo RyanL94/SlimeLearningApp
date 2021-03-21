@@ -89,3 +89,72 @@ to approach/くる/来る/2021-01-16/E
 to produce/つくる/作る/2021-01-16/E
 doctor/いし/医師 /2021-01-16/E
 necessary/ひつよう/必要/2021-01-16/E
+to feel gloomy/くらいききもちになる/暗い気持ちになる/2021-01-16/E
+doctor/いし/医師/2021-01-16/E
+either or/または/又は/2021-01-16/E
+to approach/くる/来る/2021-01-16/E
+to produce/つくる/作る/2021-01-16/E
+soil/つち/土/2021-01-16/E
+Saturday/どようび/土曜日/2021-01-16/E
+day/にち/日/2021-01-16/E
+Sunday/にちようび/日曜日/2021-01-16/E
+this month/こんげつ/今月/2021-01-16/E
+animal/どうぶつ/動物/2021-01-23/E
+world(public)/せけん/世間/2021-01-23/E
+yellow/きいろ/2021-01-23/E
+age(years)/ねんれい/年齢/2021-01-23/E
+to feel gloomy(to feel blue)/くらいききもちになる/暗気持ちになる/2021-01-23/E
+last month/せんげつ/先月/2021-01-23/E
+next month/らいげつ/来月/2021-01-23/E
+one/いち/一/2021-01-23/E
+January/ひとつき/一月/2021-01-23/E
+two/に/二/2021-01-23/E
+to wait/まつ/待つ/2021-01-31/E
+to be afraid of/おそれる/恐れる/2021-01-31/E
+most(extremely)/もっとも/最も/2021-01-31/E
+to touch/触れる/ふれる/2021-01-31/E
+warm(mild)/あたた/かい/暖かい/2021-01-31/E
+three/さん/三/2021-01-31/E
+four/し/四/2021-01-31/E
+go/ご/五/2021-01-31/E
+one(small animal)/いっぴき/一匹/2021-01-31/E
+one(drink)/いっぱい/一杯/2021-01-31/E
+every day/まいにち/毎日/2021-02-06/E
+every week/まいしゅう/毎週/2021-02-06/E
+every year/まいとし/毎年/2021-02-06/E
+often/しばしば々/屡々/2021-02-06/E
+use(application)/つかう/使う/2021-02-06/E
+to contain(to hold)/ふくむ/含む/2021-02-06/E
+particularly(especially)/とくに/特に/2021-02-06/E
+same(agree)/どう/同/2021-02-06/E
+legend(story)/ものたり/物語/2021-02-13/E
+desert/さばく/砂漠/2021-02-13/E
+road/どうろ/道路/2021-02-13/E
+heat/ねつ/熱/2021-02-13/E
+every month/まいつき/毎月/2021-02-13/E
+hundred/ひゃく/百/2021-02-13/E
+thousand/せん/千/2021-02-13/E
+ten thousand/まん/万/2021-02-13/E
+to be wrong(to differ)/ちがう/違う/2021-02-20/E
+special/とくべつ/特別/2021-02-20/E
+year before last/おととし/一昨年/2021-02-20/E
+number one/いちばん/一番/2021-02-20/E
+time(hour)/じかん/時間/2021-02-20/E
+to need(to call)/ひつようとする/必要とする/2021-02-27/E
+to touch(to feel)/ふれる/触れる/2021-02-27/E
+clear(precise)/めいかく/明確/2021-02-27/E
+morning/あさ/朝/2021-02-27/E
+night/よる/夜/2021-02-27/E
+evening/ばん/番/2021-02-27/E
+to stop(to come to a stop)/とまる/止まる/2021-03-13/E
+continuation/れんぞく/連続/2021-03-13/E
+cheap/やす/安/2021-03-13/E
+to receive(to get)/うける/受ける/2021-03-13/E
+to think(to consider)/おもう/思う/2021-03-13/E
+to hold in your hand(to take)/もつ/持つ/2021-03-13/E
+minute/ぶん/分/2021-03-13/E
+half/はんぶん/半分/2021-03-13/E
+minute/びょう/秒/2021-03-13/E
+car/くるま/車/2021-03-13/E
+bike/じてんしゃ/自転車/2021-03-13/E
+electric/でんしゃ/電車/2021-03-13/E
