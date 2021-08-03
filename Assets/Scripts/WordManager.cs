@@ -31,6 +31,7 @@ public class WordManager : MonoBehaviour
     [SerializeField] private InputField searchField = default;
 
     private Text[] tFields;
+    private List<GameObject> cachedList = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -61,6 +62,7 @@ public class WordManager : MonoBehaviour
         {
             string[] wordData = fileLines[i].Split('/');
             GameObject temp = Instantiate(word, wordList);
+            cachedList.Add(temp);
             tFields = temp.GetComponentsInChildren<Text>();
             tFields[0].text = wordData[0];
             temp.GetComponent<WordInfo>().engWord = wordData[0];
@@ -78,7 +80,7 @@ public class WordManager : MonoBehaviour
     public void AddWord()
     {
         string path = Application.dataPath + "/WordList.txt";
-        string word;
+        string wordToAdd;
         string diff;
         bool error = false;
         bool currentError = false;
@@ -120,11 +122,11 @@ public class WordManager : MonoBehaviour
                 diff = "?";
             }
 
-            word = eng + "/" + furi + "/" + kanji + "/" + date + "/" + diff + "\n";
+            wordToAdd = eng + "/" + furi + "/" + kanji + "/" + date + "/" + diff + "\n";
 
             if (currentError == false)
             {
-                File.AppendAllText(path, word);
+                File.AppendAllText(path, wordToAdd);
                 Destroy(makeWord[i]);
             }
         }
@@ -136,15 +138,30 @@ public class WordManager : MonoBehaviour
             ToggleButtons();
         }
 
-        RefreshAllWords();
+        string readFrom = Application.dataPath + "/WordList.txt";
+
+        fileLines = File.ReadAllLines(readFrom).ToList();
+        string[] wordData = fileLines[fileLines.Count-1].Split('/');
+        GameObject temp = Instantiate(word, wordList);
+        cachedList.Add(temp);
+        tFields = temp.GetComponentsInChildren<Text>();
+        tFields[0].text = wordData[0];
+        temp.GetComponent<WordInfo>().engWord = wordData[0];
+        tFields[1].text = wordData[1];
+        temp.GetComponent<WordInfo>().furiWord = wordData[1];
+        tFields[2].text = wordData[2];
+        temp.GetComponent<WordInfo>().kanjiWord = wordData[2];
+        tFields[3].text = wordData[3];
+        temp.GetComponent<WordInfo>().date = wordData[3];
+        tFields[4].text = wordData[4];
+        temp.GetComponent<WordInfo>().diff = wordData[4];
     }
 
     public void SortByEnglish()
     {
         List<GameObject> wordListSort = new List<GameObject>();
-        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
 
-        foreach (GameObject word in allWords)
+        foreach (GameObject word in cachedList)
         {
             wordListSort.Add(word);
         }
@@ -156,23 +173,17 @@ public class WordManager : MonoBehaviour
 
         foreach (GameObject word in wordListSort)
         {
-            GameObject temp = Instantiate(word, wordList) as GameObject;
-        }
-
-        foreach (GameObject killThisStupidWord in allWords)
-        {
-            Destroy(killThisStupidWord);
+            word.transform.SetAsLastSibling();
         }
     }
 
     public void GetWordCount()
     {
         ToggleButtons();
-        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
 
         wordCountPanel.SetActive(true);
 
-        wordCount.text = allWords.Length.ToString();
+        wordCount.text = cachedList.Count.ToString();
     }
 
     public void CloseWordCount()
@@ -191,9 +202,7 @@ public class WordManager : MonoBehaviour
 
     public void SelectAll()
     {
-        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
-
-        foreach (GameObject word in allWords)
+        foreach (GameObject word in cachedList)
         {
             word.GetComponentInChildren<Toggle>().isOn = true;
         }
@@ -201,9 +210,7 @@ public class WordManager : MonoBehaviour
 
     public void UnselectAll()
     {
-        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
-
-        foreach (GameObject word in allWords)
+        foreach (GameObject word in cachedList)
         {
             word.GetComponentInChildren<Toggle>().isOn = false;
         }
@@ -213,22 +220,26 @@ public class WordManager : MonoBehaviour
     {
         ToggleButtons();
         selectWordPanel.SetActive(!selectWordPanel.activeSelf);
-        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
+
+        if((startDateSelect.text != "" && endDateSelect.text != "") || newestSelect.text != "" || oldestSelect.text != "")
+        {
+            UnselectAll();
+        }
 
         if(startDateSelect.text != "" && endDateSelect.text != "")
         {
             System.DateTime startDate = System.DateTime.Parse(startDateSelect.text);
             System.DateTime endDate = System.DateTime.Parse(endDateSelect.text);
 
-            for (int i = 0; i<allWords.Length; i++)
+            for (int i = 0; i<cachedList.Count; i++)
             {
-                tFields = allWords[i].GetComponentsInChildren<Text>();
+                tFields = cachedList[i].GetComponentsInChildren<Text>();
                 String dateText = tFields[3].text;
                 System.DateTime date = System.DateTime.Parse(dateText);
 
                 if(DateTime.Compare(date,startDate) >= 0  && DateTime.Compare(date,endDate) <= 0)
                 {
-                    allWords[i].GetComponentInChildren<Toggle>().isOn = true;
+                    cachedList[i].GetComponentInChildren<Toggle>().isOn = true;
                 }
             }
         }
@@ -238,17 +249,17 @@ public class WordManager : MonoBehaviour
         int selectAmount;
         if (newestSelect.text != "")
         {
-            selectAmount = allWords.Length - Int32.Parse(newestSelect.text);
+            selectAmount = cachedList.Count - Int32.Parse(newestSelect.text);
         }
         else
         {
-            selectAmount = allWords.Length;
+            selectAmount = cachedList.Count;
         }
         newestSelect.text = "";
 
-        for (int i = allWords.Length; i > selectAmount; i--)
+        for (int i = cachedList.Count; i > selectAmount; i--)
         {
-            allWords[i-1].GetComponentInChildren<Toggle>().isOn = true;
+            cachedList[i-1].GetComponentInChildren<Toggle>().isOn = true;
         }
 
         if (oldestSelect.text != "")
@@ -263,7 +274,7 @@ public class WordManager : MonoBehaviour
 
         for (int i= 0; i< selectAmount; i++)
         {
-            allWords[i].GetComponentInChildren<Toggle>().isOn = true;
+            cachedList[i].GetComponentInChildren<Toggle>().isOn = true;
         }
     }
 
@@ -276,22 +287,18 @@ public class WordManager : MonoBehaviour
 
     public void SearchWords()
     {
-        RefreshAllWords();
-        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
-
         if (searchField.text == "")
         {
             return;
         }
 
-        for (int i = 0; i < allWords.Length; i++)
+        for (int i = 0; i < cachedList.Count; i++)
         {
-            tFields = allWords[i].GetComponentsInChildren<Text>();
+            tFields = cachedList[i].GetComponentsInChildren<Text>();
             String comparisonText = tFields[0].text.ToLower();
             if (!(comparisonText.Contains(searchField.text.ToLower()) || tFields[1].text.Contains(searchField.text) || tFields[2].text.Contains(searchField.text)))
             {
-                Debug.Log(tFields[0].text + " destroyed");
-                Destroy(allWords[i]);
+                cachedList[i].SetActive(false);
             }
         }
 
@@ -299,11 +306,19 @@ public class WordManager : MonoBehaviour
         ToggleSearchWords();
     }
 
+    public void ResetWords()
+    {
+        foreach(GameObject word in cachedList)
+        {
+            word.SetActive(true);
+            word.transform.SetAsLastSibling();
+            word.GetComponentInChildren<Toggle>().isOn = true;
+        }
+    }
+
     void DestroyAllWords()
     {
-        GameObject[] allWords = GameObject.FindGameObjectsWithTag("Word");
-
-        foreach (GameObject killWord in allWords)
+        foreach (GameObject killWord in cachedList)
         {
             Destroy(killWord);
         }
